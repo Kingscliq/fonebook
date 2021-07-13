@@ -15,9 +15,15 @@ import ContactState from "./context/contact/contactState";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alerts/AlertState";
 import Alert from "./components/alerts";
+import setAuthToken from './utils/setAuthToken'
 
+
+
+if(localStorage.token){
+  setAuthToken(localStorage.token)
+}
 function App() {
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
   return (
     <>
       <AuthState>
