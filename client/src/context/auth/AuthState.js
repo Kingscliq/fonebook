@@ -42,7 +42,7 @@ const AuthState = ({ children }) => {
       );
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     } catch (error) {
-      dispatch({ type: REGISTER_FAILED, payload: error.response.msg });
+      dispatch({ type: REGISTER_FAILED, payload: error.response.data.msg });
     }
   };
   // Login User

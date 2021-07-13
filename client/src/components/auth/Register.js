@@ -29,7 +29,7 @@ const Register = () => {
     } else if (password !== cpassword) {
       setAlert("Passwords don't Match!", "alert-danger");
     } else {
-      register(user);
+      register({name, email, password});
       console.log("user Registered");
     }
   };

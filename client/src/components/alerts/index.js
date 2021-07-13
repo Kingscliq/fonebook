@@ -13,7 +13,7 @@ const Alert = () => {
       {alerts.length > 0 &&
         alerts.map((alert) => {
           return (
-            <CSSTransition classNames="item" timeout={1000}>
+            <CSSTransition classNames="item" timeout={1000} key={alerts.id}>
               <div className={`alert-box ${alert.type}`}>
                 <div>
                   {alert.type === "alert-success" ? (
