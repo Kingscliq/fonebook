@@ -42,7 +42,7 @@ router.post(
       // Save User
       await user.save();
       console.log("User Successfully Created");
-      // res.send("User Created");
+      res.status(200).json({ msg: "User Successfully Created" });
       //  Encrypt Password with JWT
       const payload = {
         id: user.id,

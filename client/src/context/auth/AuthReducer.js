@@ -12,7 +12,7 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
-      localStorage.setItem("token", action.payload);
+      localStorage.setItem("token", JSON.stringify(action.payload));
       return {
         ...state,
         ...action.payload,

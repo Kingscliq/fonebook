@@ -13,7 +13,7 @@ const Register = () => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert } = alertContext;
-  const { register } = authContext;
+  const { register, error } = authContext;
 
   const { name, email, password, cpassword } = user;
 
@@ -28,8 +28,10 @@ const Register = () => {
       setAlert("Please Enter All fields", "alert-danger");
     } else if (password !== cpassword) {
       setAlert("Passwords don't Match!", "alert-danger");
+    } else if (error) {
+      setAlert(error, "alert-danger");
     } else {
-      register({name, email, password});
+      register({ name, email, password });
       console.log("user Registered");
     }
   };
