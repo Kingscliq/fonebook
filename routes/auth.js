@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const auth = require("../middlewares/auth");
+const cors = require("cors");
 
 // @routes GET api/auth
 // @desc   Get Logged In user

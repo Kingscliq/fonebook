@@ -9,8 +9,6 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACT,
   CLEAR_FILTER,
-  SET_ALERT,
-  REMOVE_ALERT,
 } from "./types";
 
 import ContactContext from "./contactContext";

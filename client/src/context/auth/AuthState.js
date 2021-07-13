@@ -36,7 +36,9 @@ const AuthState = ({ children }) => {
 
     try {
       const res = await axios.post(
-        "https://ezo-contact-api.herokuapp.com/api/users"
+        "https://ezo-contact-api.herokuapp.com/api/users",
+        formData,
+        config
       );
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     } catch (error) {
@@ -54,6 +56,7 @@ const AuthState = ({ children }) => {
         loading: state.loading,
         error: state.error,
         user: state.user,
+        register,
       }}
     >
       {children}
