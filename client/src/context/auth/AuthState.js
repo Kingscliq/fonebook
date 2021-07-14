@@ -35,11 +35,11 @@ const AuthState = ({ children }) => {
     }
 
     try {
-      const res = await axios.get("/auth/users");
+      const res = await axios.get("/auth");
 
       dispatch({ USER_LOADED, payload: res.data });
     } catch (err) {
-      dispatch({ AUTH_ERROR });
+      dispatch({ type: AUTH_ERROR });
     }
   };
 
@@ -57,7 +57,7 @@ const AuthState = ({ children }) => {
         formData,
         config
       );
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data.token });
     } catch (error) {
       console.log(error.response.data.msg);
       dispatch({
@@ -87,6 +87,7 @@ const AuthState = ({ children }) => {
         success: state.success,
         clearErrors,
         register,
+        loadUser,
       }}
     >
       {children}
