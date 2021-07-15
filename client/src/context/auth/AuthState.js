@@ -52,12 +52,8 @@ const AuthState = ({ children }) => {
     };
     dispatch({ type: SET_LOADING });
     try {
-      const res = await axios.post(
-        "https://ezo-contact-api.herokuapp.com/api/users",
-        formData,
-        config
-      );
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data.token });
+      const res = await axios.post("/users", formData, config);
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     } catch (error) {
       console.log(error.response.data.msg);
       dispatch({
