@@ -44,7 +44,7 @@ const Register = (props) => {
       setAlert("Passwords don't Match!", "alert-danger");
     } else {
       register({ name, email, password });
-      console.log("user Registered");
+      
     }
   };
   return (

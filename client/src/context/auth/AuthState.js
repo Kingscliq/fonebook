@@ -18,7 +18,7 @@ import {
 
 const AuthState = ({ children }) => {
   const initialState = {
-    token: !localStorage.getItem('token') ? null : JSON.stringify(localStorage.getItem('token')) ,
+    token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: null,
     error: null,
@@ -30,14 +30,12 @@ const AuthState = ({ children }) => {
 
   // load User
   const loadUser = async () => {
-   
-if (localStorage.token) {
-        setAuthToken(localStorage.token);
-      }
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     try {
-      
       const res = await axios.get("/auth");
-console.log(res.data)
+      console.log(res.data);
       dispatch({ USER_LOADED, payload: res.data });
     } catch (err) {
       dispatch({ type: AUTH_ERROR });
@@ -53,14 +51,16 @@ console.log(res.data)
     };
     dispatch({ type: SET_LOADING });
     try {
-      const res = await axios.post(
-        "/users",
-        formData,
-        config
-      );
+      const res = await axios.post("/users", formData, config);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     } catch (error) {
       console.log(error.response.data.msg);
+      if (error.response === undefined) {
+        return dispatch({
+          type: REGISTER_FAILED,
+          payload: "There is an error in your Network Connection!",
+        });
+      }
       dispatch({
         type: REGISTER_FAILED,
         payload: error.response.data.msg,
@@ -70,7 +70,34 @@ console.log(res.data)
     loadUser();
   };
   // Login User
+  const login = async (formData) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    dispatch({ type: SET_LOADING });
+    try {
+      const res = await axios.post("/auth", formData, config);
+      dispatch({type:LOGIN_SUCCESS, payload: res.data })
+    } catch (err) {
+      if (err.response === undefined) {
+        return dispatch({
+          type: LOGIN_FAIL,
+          payload: "There is an error in your Network Connection!",
+        });
+      }
+      if (err.response.status == 401){
+        dispatch({type: LOGIN_FAIL, payload: "Unauthorized No access Token"})
+      }
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg,
+      });
+    }
 
+    loadUser()
+  };
   // Logout
 
   // Clear Errors
@@ -89,6 +116,7 @@ console.log(res.data)
         clearErrors,
         register,
         loadUser,
+        login
       }}
     >
       {children}

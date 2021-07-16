@@ -13,27 +13,35 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case USER_LOADED:
-
+      // console.log(action.payload);
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
         user: action.payload,
-        token: localStorage.getItem("token"),
       };
     case REGISTER_SUCCESS:
+      
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
-        ...action.payload,
-        // token: action.payload,
         isAuthenticated: true,
         loading: false,
         error: null,
         success: "Registration SuccessFul",
       };
+      case LOGIN_SUCCESS:
+        localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        error: null,
+        success: "Login SuccessFul",
+      };
     case REGISTER_FAILED:
     case AUTH_ERROR:
+      case LOGIN_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,

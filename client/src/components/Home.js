@@ -7,10 +7,8 @@ import AuthContext from "../context/auth/AuthContext";
 const Home = () => {
   const authContext = useContext(AuthContext);
 
-  useEffect(async () => {
-    await authContext.loadUser();
-    console.log(localStorage.token)
-    // eslint-disabled-next-line
+  useEffect(() => {
+    authContext.loadUser();
   }, []);
   return (
     <div className="grid-2 container">

@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import loader from '../../assets/'
+import AuthContext from "../../context/auth/AuthContext";
+import AlertContext from "../../context/alerts/AlertContext";
 
-const Login = () => {
+
+const Login = (props) => {
+  const authContext = useContext(AuthContext)
+  const alertContext = useContext(AlertContext)
+
+const {login, error, loading, clearErrors, success, isAuthenticated } = authContext
+const {setAlert} = alertContext
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -13,14 +23,29 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+
+  useEffect(() => {
+    if (error) {
+      setAlert(error, "alert-danger");
+      clearErrors();
+    }
+    if (success) {
+      setAlert(success, "alert-success");
+    }
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+  }, [error, isAuthenticated, props.history]);
+
+  // Handle Form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("form submitted");
+    login(user)
   };
   return (
     <div className="form-container">
       <h1 className="text-primary">Login</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -43,7 +68,19 @@ const Login = () => {
         </div>
 
         <button type="submit" className="btn btn-primary btn-block">
-          Register
+        <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {loading ? (
+              <img src={loader} height="50" width="50" alt="loading" />
+            ) : (
+              <p>Login</p>
+            )}
+          </div>
         </button>
       </form>
     </div>
