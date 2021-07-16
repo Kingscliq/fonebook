@@ -18,7 +18,7 @@ import {
 
 const AuthState = ({ children }) => {
   const initialState = {
-    token: localStorage.getItem("token"),
+    token: !localStorage.getItem('token') ? null : JSON.stringify(localStorage.getItem('token')) ,
     isAuthenticated: null,
     loading: null,
     error: null,
@@ -30,13 +30,14 @@ const AuthState = ({ children }) => {
 
   // load User
   const loadUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-
+   
+if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
     try {
+      
       const res = await axios.get("/auth");
-
+console.log(res.data)
       dispatch({ USER_LOADED, payload: res.data });
     } catch (err) {
       dispatch({ type: AUTH_ERROR });
@@ -53,11 +54,11 @@ const AuthState = ({ children }) => {
     dispatch({ type: SET_LOADING });
     try {
       const res = await axios.post(
-        "https://ezo-contact-api.herokuapp.com/api/users",
+        "/users",
         formData,
         config
       );
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data.token });
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     } catch (error) {
       console.log(error.response.data.msg);
       dispatch({

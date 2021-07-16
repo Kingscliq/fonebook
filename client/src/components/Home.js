@@ -7,8 +7,9 @@ import AuthContext from "../context/auth/AuthContext";
 const Home = () => {
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    authContext.loadUser();
+  useEffect(async () => {
+    await authContext.loadUser();
+    console.log(localStorage.token)
     // eslint-disabled-next-line
   }, []);
   return (
